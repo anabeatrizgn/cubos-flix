@@ -1,0 +1,93 @@
+.lista-filmes {
+  width: 168px;
+  height: 301px;
+  padding: 8px 5px;
+  position: relative;
+}
+
+.lista-filmes::after {
+  content: "";
+  background: rgba(0, 0, 0, 0.38);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.filtro-infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.estrela {
+  cursor: pointer;
+}
+
+.estrelado {
+  fill: #ffff;
+}
+
+.identificacao-filme {
+  display: flex;
+  justify-content: space-between;
+}
+
+.avaliar-filmes {
+  display: grid;
+  flex-direction: row;
+}
+
+.quantidade-estrelas {
+  margin: 0;
+}
+
+h2 {
+  font-family: "Manrope";
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #ffff;
+}
+
+.quantidade-estrelas {
+  color: #fbcd6e;
+  font-family: "Manrope";
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.comprar-filme {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  width: 100%;
+  background-color: #a785ed;
+  border: none;
+  outline: none;
+  color: #ffff;
+}
+
+.comprar-filme:hover {
+  background-color: #785eac;
+  cursor: pointer;
+}
+
+.sacola-botao {
+  font-family: "Manrope";
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.valor-filme {
+  margin: 0;
+}
