@@ -1,0 +1,54 @@
+.item-sacola {
+    display: flex;
+    width: 280px;
+    height: 88px;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 8px;
+
+}
+
+.filme-infos {
+    width: 151px;
+    display: flex;
+    flex-direction: column;
+    font-family: Manrope;
+    font-weight: 700;
+    color: #ffff;
+    justify-content: center;
+}
+
+.nome-filme{
+    margin-bottom: 0;
+}
+
+.preco-filme {
+    margin-top: 2px;
+}
+
+.filme-escolhido {
+    height: 67px;
+    width: 43px;
+}
+
+.filme-quantidade {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quantidade-compra {
+    font-family: 'Manrope';
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    margin-left: 8px;
+    margin-right: 8px;
+    color: #ffff;
+}
+
+.bg-transparente{
+    background-color: transparent;
+    outline: transparent;
+    border: none;
+}

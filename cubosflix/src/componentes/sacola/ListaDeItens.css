@@ -1,0 +1,11 @@
+.tam-lista {
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scroll {
+    overflow: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #303539 transparent;
+}

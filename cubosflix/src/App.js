@@ -2,58 +2,59 @@ import "./App.css";
 import Movies from "./data.js";
 import { useState, useEffect } from "react";
 import { MovieCard } from "./componentes/movie-cards";
+import { Banner } from "./componentes/banner";
+import { MovieBag } from "./componentes/sacola";
 
 const filtros = [
   {
     nome: "Todos",
     checkado: true,
+    categorias: ["horror", "action", "romance", "science fiction"]
   },
   {
     nome: "Ação",
     checkado: false,
+    categorias: "action"
   },
   {
     nome: "Romance",
     checkado: false,
+    categorias: "romance"
   },
   {
     nome: "Ficção",
     checkado: false,
+    categorias: "science fiction"
   },
   {
     nome: "Terror",
     checkado: false,
+    categorias: "horror"
   },
 ];
 
-function App() {
-  const [contagem, setContagem] = useState(10 * 60);
-  const minutos = String(Math.floor(contagem / 60)).padStart(2, "0");
-  const segundos = String(Math.floor(contagem % 60)).padStart(2, "0");
 
+function App() {
   const [filmes, setFilmes] = useState(Movies);
+  const [filtrosAdicionados, setFiltrosAdicionados] = useState(filtros[0].nome);
+  const [valorPesquisa, setValorPesquisa] = useState("");
+  const [addFilme, setAddFilme] = useState([]);
+  const [valorTotal, setValorTotal] = useState(0);
+
+
   Movies.sort((a, b) => b.starsCount - a.starsCount);
   const topMovies = Movies.slice(0, 5);
 
-  const [filtrosAdicionados, setFiltrosAdicionados] = useState([]);
-  const [valorPesquisa, setValorPesquisa] = useState("");
 
-  useEffect(() => {
-    const intervalId = setInterval(
-      () =>
-        setContagem((tempoContando) => {
-          if (tempoContando > 0) {
-            return tempoContando - 1;
-          } else {
-            return 0;
-          }
-        }),
-      1000
-    );
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  useEffect (() => {
+    if(filtrosAdicionados === "Todos") {
+      setFilmes(Movies);
+    } else {
+      const whichFilter= filtros.find(filtro => filtro.nome === filtrosAdicionados);
+      const whichMovie = Movies.filter(movie => movie.categories.includes(whichFilter.categorias));
+      setFilmes(whichMovie);
+    }
+  }, [filtrosAdicionados])
 
   function handleSearchMovie(e) {
     const movieName = Movies.filter((movies) =>
@@ -63,39 +64,6 @@ function App() {
     setFilmes(movieName);
   }
 
-  function filtrarFilmes(filtro) {
-    const arrayLocal = [...filtrosAdicionados];
-    filtro.checkado = !filtro.checkado;
-    if (filtro.nome !== "Todos") {
-      console.log(arrayLocal);
-      if (arrayLocal.includes("Todos")) {
-        filtros[0].checkado = false;
-        const indexDaCategoria = arrayLocal.findIndex(
-          (categoria) => categoria === "Todos"
-        );
-        arrayLocal.splice(indexDaCategoria, 1);
-      }
-    }
-
-    if (filtro.checkado) {
-      if (!arrayLocal.includes(filtro.nome)) {
-        setFiltrosAdicionados([...arrayLocal, filtro.nome]);
-      }
-    } else {
-      if (arrayLocal.includes(filtro.nome)) {
-        const indexDaCategoria = arrayLocal.findIndex(
-          (categoria) => categoria === filtro.nome
-        );
-        arrayLocal.splice(indexDaCategoria, 1);
-        setFiltrosAdicionados([...arrayLocal]);
-      }
-    }
-    if (arrayLocal.length === 0) {
-      filtros[0].checkado = true;
-      console.log(filtros, "final");
-      setFiltrosAdicionados(["Todos"]);
-    }
-  }
 
   return (
     <div className="App">
@@ -132,37 +100,12 @@ function App() {
           <img className="profile" src="/anabeatriz.jpg" alt="usuário" />
         </div>
       </header>
-      {filtrosAdicionados}
-      {contagem > 0 && (
-        <div className="adds">
-          <div className="add-cupom">
-            <h1>Aproveite agora:</h1>
-            <div className="cupom">
-              <img src="/coupon-circle-icon.svg" alt="icone-cupom" />
-              <p className="codigo-cupom">CUPOM: htmlnaoelinguagem</p>
-            </div>
-          </div>
-          <div className="add-cronometro">
-            <h2>Finaliza em:</h2>
-            <div className="timer">
-              <img src="/time-icon.svg" alt="icone-relogio" />
-              <p className="codigo-cupom">
-                00:{minutos}:{segundos}
-              </p>
-            </div>
-          </div>
-          <img
-            className="icone-dinheiro"
-            src="/money.png"
-            alt="ilustracao-dinheiro"
-          />
-        </div>
-      )}
+        <Banner valorTotal={valorTotal} setValorTotal={setValorTotal}/>
       <div className="outdoors">
         <h3>Top Filmes</h3>
         <div className="top-filmes">
           {topMovies.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} addFilme={addFilme} setAddFilme={setAddFilme} valorTotal={valorTotal} setValorTotal={setValorTotal}/>
           ))}
         </div>
       </div>
@@ -171,10 +114,9 @@ function App() {
         <div className="filtros">
           {filtros.map((filtro) => (
             <button
-              key={filtro.nome}
-              onClick={() => filtrarFilmes(filtro)}
+              onClick={() => setFiltrosAdicionados(filtro.nome)}
               className={
-                filtro.checkado ? "botao-filtro selecionado" : "botao-filtro"
+                filtrosAdicionados === filtro.nome ? "botao-filtro selecionado" : "botao-filtro"
               }
             >
               {filtro.nome}
@@ -183,31 +125,11 @@ function App() {
         </div>
         <div className="escolher-filmes">
           {filmes.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} addFilme={addFilme} setAddFilme={setAddFilme} valorTotal={valorTotal} setValorTotal={setValorTotal}/>
           ))}
         </div>
       </div>
-      <div className="card">
-        <header className="header-card">
-          <img
-            className="imagem-titulo-card"
-            src="/bag-icon.svg"
-            alt="icone-sacola"
-          />
-          <h4 className="titulo-card">Sacola</h4>
-        </header>
-        <h4>Sua sacola está vazia</h4>
-        <h5>Adicione filmes agora</h5>
-        <img src="/person-illustration.svg" alt="ilustracao-pessoa-logo" />
-        <form className="form-cupom">
-          <label>Insira sem Cupom</label>
-          <input
-            className="input-cupom"
-            type="text"
-            placeholder="Cupom de desconto"
-          />
-        </form>
-      </div>
+      <MovieBag addFilme={addFilme} setAddFilme={setAddFilme} valorTotal={valorTotal} setValorTotal={setValorTotal}/>
     </div>
   );
 }
