@@ -1,105 +1,35 @@
 import "./App.css";
-import Movies from "./data.js";
-import { useState, useEffect } from "react";
-import { MovieCard } from "./componentes/movie-cards";
-import { Banner } from "./componentes/banner";
-import { MovieBag } from "./componentes/sacola";
-
-const filtros = [
-  {
-    nome: "Todos",
-    checkado: true,
-    categorias: ["horror", "action", "romance", "science fiction"]
-  },
-  {
-    nome: "Ação",
-    checkado: false,
-    categorias: "action"
-  },
-  {
-    nome: "Romance",
-    checkado: false,
-    categorias: "romance"
-  },
-  {
-    nome: "Ficção",
-    checkado: false,
-    categorias: "science fiction"
-  },
-  {
-    nome: "Terror",
-    checkado: false,
-    categorias: "horror"
-  },
-];
+import Movies from "./dados/data.js";
+import { useState } from "react";
+import { Header } from "./componentes/Header";
+import { Banner } from "./componentes/Banner";
+import { Filter } from "./componentes/Filter";
+import { MovieCard } from "./componentes/Movie-Cards";
+import { MovieBag } from "./componentes/Bag";
 
 
 function App() {
   const [filmes, setFilmes] = useState(Movies);
-  const [filtrosAdicionados, setFiltrosAdicionados] = useState(filtros[0].nome);
-  const [valorPesquisa, setValorPesquisa] = useState("");
   const [addFilme, setAddFilme] = useState([]);
   const [valorTotal, setValorTotal] = useState(0);
-
+  const [filtrosAdicionados, setFiltrosAdicionados] = useState(["all"]);
 
   Movies.sort((a, b) => b.starsCount - a.starsCount);
   const topMovies = Movies.slice(0, 5);
 
-
-  useEffect (() => {
-    if(filtrosAdicionados === "Todos") {
-      setFilmes(Movies);
-    } else {
-      const whichFilter= filtros.find(filtro => filtro.nome === filtrosAdicionados);
-      const whichMovie = Movies.filter(movie => movie.categories.includes(whichFilter.categorias));
-      setFilmes(whichMovie);
+  function escolherCategoria (filme) {
+    const arrayFilmes = [...filtrosAdicionados]
+    if(arrayFilmes.includes("all")) return filme
+    if(!arrayFilmes.includes("all")) {
+      if(arrayFilmes.some(categoria => filme.categories.includes(categoria))) {
+        return filme
+      }
     }
-  }, [filtrosAdicionados])
-
-  function handleSearchMovie(e) {
-    const movieName = Movies.filter((movies) =>
-      movies.title.includes(valorPesquisa)
-    );
-    e.preventDefault();
-    setFilmes(movieName);
   }
-
 
   return (
     <div className="App">
-      <header className="cabecalho">
-        <img src="/logo.svg" alt="logo" />
-        <div className="pai-pesquisa">
-          <form id="pesquisar-filme">
-            <input
-              type="text"
-              placeholder="Pesquise filtros..."
-              onChange={(e) => setValorPesquisa(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSearchMovie(e)}
-            />
-          </form>
-          <button
-            type="button"
-            form="pesquisar-filme"
-            onClick={(e) => handleSearchMovie(e)}
-            className="pesquisa"
-          >
-            <img src="/search-icon.svg" alt="icone-pesquisa" />
-          </button>
-        </div>
-        <button className="favoritos">
-          <img src="/bookmark-icon.svg" alt="icone-favoritos" />
-          Favoritos
-        </button>
-        <button className="promocao">
-          <img src="/promotion-icon.svg" alt="icone-promocao" />
-          Promoções
-        </button>
-        <div className="login">
-          Bem-vinda Ana Beatriz{" "}
-          <img className="profile" src="/anabeatriz.jpg" alt="usuário" />
-        </div>
-      </header>
+      <Header setFilmes={setFilmes}/>
         <Banner valorTotal={valorTotal} setValorTotal={setValorTotal}/>
       <div className="outdoors">
         <h3>Top Filmes</h3>
@@ -111,20 +41,9 @@ function App() {
       </div>
       <div className="filmes">
         <h3>Filmes</h3>
-        <div className="filtros">
-          {filtros.map((filtro) => (
-            <button
-              onClick={() => setFiltrosAdicionados(filtro.nome)}
-              className={
-                filtrosAdicionados === filtro.nome ? "botao-filtro selecionado" : "botao-filtro"
-              }
-            >
-              {filtro.nome}
-            </button>
-          ))}
-        </div>
+        <Filter filtrosAdicionados={filtrosAdicionados} setFiltrosAdicionados={setFiltrosAdicionados}/>
         <div className="escolher-filmes">
-          {filmes.map((movie) => (
+          {filmes.filter(escolherCategoria).map((movie) => (
             <MovieCard movie={movie} addFilme={addFilme} setAddFilme={setAddFilme} valorTotal={valorTotal} setValorTotal={setValorTotal}/>
           ))}
         </div>

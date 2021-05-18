@@ -1,0 +1,83 @@
+.cabecalho {
+    background-color: #0f1c26;
+    color: var(--cor-texto);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 130px 24px 70px;
+    font-family: var(--manrope-fonte);
+  }
+  
+  .pai-pesquisa {
+    position: relative;
+  }
+  
+  .cabecalho input {
+    background-color: #171b1e;
+    height: 56px;
+    width: 456px;
+    outline: none;
+    border: none;
+    padding-left: 13px;
+    padding-right: 60px;
+    color: #ffff;
+  }
+  
+  .cabecalho input::placeholder {
+    color: var(--cor-texto);
+    font-family: var(--manrope-fonte);
+    font-size: 16px;
+    font-weight: 500;
+    padding-right: 20px;
+  }
+  
+  .cabecalho input:focus,
+  .cabecalho input:hover {
+    border: 1px solid var(--cor-texto);
+  }
+  
+  .pesquisa {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    left: 408px;
+    top: 16px;
+    cursor: pointer;
+  }
+  
+  .pesquisa img {
+    height: 24px;
+    width: 24px;
+  }
+  
+  .favoritos,
+  .promocao {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--cor-texto);
+    gap: 8px;
+    font-family: var(--manrope-fonte);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .profile {
+    height: 56px;
+    width: 56px;
+  }
+  

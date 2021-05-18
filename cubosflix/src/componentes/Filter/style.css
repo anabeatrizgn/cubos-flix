@@ -1,0 +1,33 @@
+.filtros {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .botao-filtro {
+    background-color: transparent;
+    height: 38px;
+    width: 168px;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    opacity: 0.2;
+    font-family: var(--open-sans);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    text-align: center;
+  }
+  
+  .botao-filtro:hover {
+    border: 2px solid #e183c8;
+    color: #e183c8;
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .selecionado {
+    background: rgba(225, 131, 200, 0.2);
+    border: 2px solid #e183c8;
+    color: #e183c8;
+    opacity: 1;
+  }
